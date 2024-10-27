@@ -1,4 +1,5 @@
-// app.js
+require('dotenv').config(); // Load environment variables
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -12,12 +13,14 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/simpleDB', { useNewUrlParser: true, useUnifiedTopology: true })
+const uri = process.env.MONGODB_URI;
+
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
-        console.log('MongoDB connected successfully'); // Message on successful connection
+        console.log('MongoDB connected successfully');
     })
     .catch(err => {
-        console.error('MongoDB connection error:', err); // Log connection error
+        console.error('MongoDB connection error:', err);
     });
 
 // Routes
